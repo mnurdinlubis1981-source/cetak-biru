@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Group 3 — Jasa Sablon Baju, Sablon Mug, dan Cetak ID Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#F2F7FF; --surface:#FFFFFF; --surface-2:#E3EEFF;
+  --ink:#0B1B3A; --muted:#51638A; --line:rgba(10,42,107,.12);
+  --blue:#0A84FF; --blue-deep:#0A2A6B; --sky:#64B5FF;
+  --glass:rgba(255,255,255,.72); --shadow:0 18px 50px -18px rgba(10,60,160,.35);
+  --spring:cubic-bezier(.32,1.25,.4,1);
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#06122B; --surface:#0E2049; --surface-2:#132B5E;
+    --ink:#EAF2FF; --muted:#9DB2DD; --line:rgba(160,190,255,.16);
+    --blue:#3C9BFF; --blue-deep:#0A2A6B; --sky:#7CC0FF;
+    --glass:rgba(10,24,56,.68); --shadow:0 18px 50px -18px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#06122B; --surface:#0E2049; --surface-2:#132B5E;
+  --ink:#EAF2FF; --muted:#9DB2DD; --line:rgba(160,190,255,.16);
+  --blue:#3C9BFF; --blue-deep:#0A2A6B; --sky:#7CC0FF;
+  --glass:rgba(10,24,56,.68); --shadow:0 18px 50px -18px rgba(0,0,0,.6);
+}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 84px);height:100%}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:10px}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1120px,100% - 40px);margin-inline:auto}
+
+/* ---------- Navigasi kaca (frosted) ---------- */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;padding:12px 0}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  background:var(--glass);backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px);
+  border:1px solid var(--line);border-radius:22px;padding:10px 12px 10px 18px;box-shadow:0 8px 30px -14px rgba(10,60,160,.3)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;font-size:1.1rem}
+.brand-dot{width:30px;height:30px;border-radius:9px;background:linear-gradient(145deg,var(--sky),var(--blue) 55%,var(--blue-deep));display:grid;place-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+.brand-dot svg{width:16px;height:16px}
+.links{display:flex;gap:4px}
+.links a{padding:8px 14px;border-radius:12px;font-weight:500;font-size:.95rem;color:var(--muted);transition:background .25s,color .25s}
+.links a:hover{background:var(--surface-2);color:var(--ink)}
+.links a.on{background:var(--surface-2);color:var(--blue);font-weight:600}
+.auth{display:flex;align-items:center;gap:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;border-radius:14px;font-weight:600;font-size:.95rem;transition:transform .35s var(--spring),box-shadow .3s,background .25s}
+.btn:active{transform:scale(.94)}
+.btn-fill{background:linear-gradient(180deg,#3d9dff,var(--blue));color:#fff;box-shadow:0 8px 20px -8px rgba(10,132,255,.8),inset 0 1px 0 rgba(255,255,255,.35)}
+.btn-fill:hover{transform:translateY(-2px)}
+.btn-ghost{color:var(--blue)}
+.btn-ghost:hover{background:var(--surface-2)}
+.btn-lg{padding:15px 28px;font-size:1.02rem;border-radius:16px}
+.chip{display:flex;align-items:center;gap:8px;padding:5px 12px 5px 5px;border-radius:999px;background:var(--surface-2);font-weight:600;font-size:.9rem}
+.avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(145deg,var(--sky),var(--blue-deep));color:#fff;display:grid;place-items:center;font-size:.85rem}
+.hide{display:none!important}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;padding:56px 0 90px;overflow:hidden}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(70px);z-index:-1;opacity:.55}
+.hero::before{width:520px;height:520px;background:#5aa9ff;top:-160px;right:-120px;animation:drift 16s ease-in-out infinite alternate}
+.hero::after{width:420px;height:420px;background:#2f6bff;bottom:-180px;left:-140px;opacity:.35;animation:drift 20s ease-in-out infinite alternate-reverse}
+@keyframes drift{to{transform:translate(50px,40px) scale(1.12)}}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(2.4rem,5.6vw,4.4rem);line-height:1.02;letter-spacing:-.04em;margin:0 0 20px;font-weight:800}
+.hero p.lead{font-size:1.15rem;color:var(--muted);max-width:46ch;margin:0 0 30px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px}
+.rise{opacity:0;transform:translateY(34px) scale(.97);animation:rise .9s var(--spring) forwards;animation-delay:var(--d,0s)}
+@keyframes rise{to{opacity:1;transform:none}}
+.stage{position:relative;height:440px;perspective:900px}
+.layer{position:absolute;transition:transform .25s ease-out;will-change:transform}
+.float{animation:bob 6s ease-in-out infinite;animation-delay:var(--f,0s)}
+@keyframes bob{50%{transform:translateY(-14px) rotate(var(--r,0deg))}}
+.stage .glass-card{position:absolute;inset:36px 20px;border-radius:38px;background:linear-gradient(160deg,rgba(255,255,255,.55),rgba(255,255,255,.12));border:1px solid rgba(255,255,255,.5);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:var(--shadow)}
+:root[data-theme="dark"] .stage .glass-card{background:linear-gradient(160deg,rgba(120,170,255,.22),rgba(60,120,255,.06));border-color:rgba(160,190,255,.25)}
+.obj-shirt{width:250px;left:calc(50% - 125px);top:44px;filter:drop-shadow(0 26px 24px rgba(8,40,120,.35))}
+.obj-mug{width:150px;left:6%;bottom:38px;filter:drop-shadow(0 20px 18px rgba(8,40,120,.35))}
+.obj-card{width:210px;right:2%;bottom:70px;filter:drop-shadow(0 20px 18px rgba(8,40,120,.35));--r:-6deg}
+
+/* ---------- Bagian umum ---------- */
+section{padding:72px 0}
+.sec-head{max-width:620px;margin-bottom:38px}
+.sec-head h2{font-size:clamp(1.9rem,4vw,2.8rem);letter-spacing:-.035em;line-height:1.08;margin:0 0 12px;font-weight:800}
+.sec-head p{color:var(--muted);margin:0;font-size:1.05rem}
+
+/* ---------- Produk ---------- */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.prod{background:var(--surface);border:1px solid var(--line);border-radius:30px;padding:22px;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:transform .5s var(--spring),box-shadow .4s}
+.prod:hover{transform:translateY(-8px) scale(1.015)}
+.prod-art{height:190px;border-radius:22px;background:linear-gradient(160deg,var(--surface-2),transparent 130%);display:grid;place-items:center;margin-bottom:20px;overflow:hidden}
+.prod-art svg{height:150px;transition:transform .6s var(--spring)}
+.prod:hover .prod-art svg{transform:scale(1.12) rotate(-3deg)}
+.prod h3{margin:0 0 6px;font-size:1.3rem;letter-spacing:-.02em}
+.prod p{margin:0 0 16px;color:var(--muted);font-size:.97rem;flex:1}
+.prod ul{list-style:none;padding:0;margin:0 0 18px;display:grid;gap:6px;font-size:.92rem}
+.prod li{display:flex;gap:8px;align-items:center}
+.prod li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--blue);flex:none}
+.prod-foot{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.price small{display:block;color:var(--muted);font-size:.78rem}
+.price b{font-size:1.25rem;letter-spacing:-.02em}
+
+/* ---------- Cara pesan ---------- */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;counter-reset:s}
+.step{background:var(--surface-2);border-radius:26px;padding:26px;counter-increment:s}
+.step::before{content:counter(s);display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--blue);color:#fff;font-weight:700;margin-bottom:16px}
+.step h3{margin:0 0 6px;font-size:1.15rem}
+.step p{margin:0;color:var(--muted);font-size:.96rem}
+
+/* ---------- Footer ---------- */
+footer{padding:50px 0 120px;border-top:1px solid var(--line);color:var(--muted)}
+.foot{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:flex-start}
+.foot b{color:var(--ink)}
+
+/* ---------- Sheet (login/daftar/pesan) ---------- */
+.veil{position:fixed;inset:0;z-index:50;background:rgba(4,16,44,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s;display:flex;align-items:flex-end;justify-content:center}
+.veil.open{opacity:1;pointer-events:auto}
+.sheet{width:min(460px,100%);max-height:92vh;overflow:auto;background:var(--surface);border-radius:32px 32px 0 0;padding:14px 26px calc(28px + env(safe-area-inset-bottom,0px));transform:translateY(105%);transition:transform .6s var(--spring);box-shadow:0 -20px 60px -20px rgba(0,0,0,.4)}
+.veil.open .sheet{transform:none}
+.grab{width:42px;height:5px;border-radius:5px;background:var(--line);margin:0 auto 18px}
+.sheet h3{margin:0 0 4px;font-size:1.6rem;letter-spacing:-.03em}
+.sheet .sub{margin:0 0 20px;color:var(--muted);font-size:.97rem}
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;background:var(--surface-2);border-radius:14px;padding:4px;margin-bottom:22px}
+.seg-thumb{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);background:var(--surface);border-radius:11px;box-shadow:0 2px 8px rgba(10,42,107,.2);transition:transform .5s var(--spring)}
+.seg[data-mode="register"] .seg-thumb{transform:translateX(100%)}
+.seg button{position:relative;z-index:1;padding:9px;font-weight:600;font-size:.95rem;color:var(--muted);transition:color .25s}
+.seg button.on{color:var(--ink)}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:.85rem;font-weight:600;margin-bottom:6px;color:var(--muted)}
+.field input,.field select,.field textarea{width:100%;padding:14px 16px;border-radius:14px;border:1.5px solid transparent;background:var(--surface-2);transition:border-color .2s,background .2s,transform .3s var(--spring)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--blue);transform:scale(1.01)}
+.field textarea{resize:vertical;min-height:84px}
+.err{min-height:1.3em;color:#e5484d;font-size:.9rem;margin:0 0 10px;font-weight:500}
+.form-pane{animation:paneIn .5s var(--spring)}
+@keyframes paneIn{from{opacity:0;transform:translateX(18px)}}
+.sheet .btn-fill{width:100%}
+.close{position:absolute;right:16px;top:14px;width:32px;height:32px;border-radius:50%;background:var(--surface-2);display:grid;place-items:center;color:var(--muted)}
+.sheet-in{position:relative}
+.order-item{display:flex;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);font-size:.95rem}
+.order-item small{color:var(--muted);display:block}
+.empty{color:var(--muted);text-align:center;padding:26px 0}
+
+/* ---------- Keranjang dan detail pesanan ---------- */
+.cart-btn{position:relative;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:var(--blue);transition:background .25s,transform .35s var(--spring)}
+.cart-btn:hover{background:var(--surface-2)}
+.cart-btn:active{transform:scale(.9)}
+.cart-btn svg{width:22px;height:22px}
+.ico{position:relative;display:grid;place-items:center}
+.badge{position:absolute;top:2px;right:0;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--blue);color:#fff;font-size:.68rem;font-weight:700;line-height:1;display:grid;place-items:center;transform:scale(0);transition:transform .45s var(--spring);pointer-events:none}
+.badge.has{transform:scale(1)}
+.badge.pop{animation:pop .5s var(--spring)}
+@keyframes pop{40%{transform:scale(1.5)}}
+.cart-item{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.cart-thumb{width:56px;height:56px;border-radius:16px;background:var(--surface-2);display:grid;place-items:center}
+.cart-thumb svg{width:40px;height:40px}
+.cart-info b{display:block;font-size:.98rem}
+.cart-info small{display:block;color:var(--muted);font-size:.83rem;overflow-wrap:anywhere}
+.cart-side{display:grid;gap:8px;justify-items:end;text-align:right;font-size:.95rem}
+.stepper{display:inline-flex;align-items:center;background:var(--surface-2);border-radius:12px}
+.stepper button{width:32px;height:32px;border-radius:12px;font-weight:700;font-size:1.1rem;color:var(--blue)}
+.stepper button:disabled{opacity:.35;cursor:default}
+.stepper span{min-width:28px;text-align:center;font-weight:600;font-size:.92rem}
+.link-danger{color:#e5484d;font-size:.82rem;font-weight:600;padding:2px 0}
+.sum{display:grid;gap:6px;padding:16px 0 4px;font-size:.95rem}
+.sum div{display:flex;justify-content:space-between;gap:16px}
+.sum .tot{font-size:1.15rem;font-weight:800;letter-spacing:-.02em;padding-top:10px;border-top:1px solid var(--line)}
+.sum small{color:var(--muted);font-size:.82rem}
+.ckt{margin-top:18px;padding-top:20px;border-top:1px solid var(--line)}
+.sheet h4{margin:22px 0 4px;font-size:1rem;letter-spacing:-.01em}
+.sheet .btn-soft,.sheet .btn-danger-soft{width:100%}
+.btn-soft{background:var(--surface-2);color:var(--ink)}
+.btn-soft:hover{transform:translateY(-2px)}
+.btn-danger-soft{background:rgba(229,72,77,.12);color:#e5484d}
+.btn-row{display:grid;gap:10px;margin-top:20px}
+.order-row{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;padding:14px 8px;margin:0;border-bottom:1px solid var(--line);border-radius:14px;text-align:left;font-size:.95rem;transition:background .2s}
+.order-row:hover{background:var(--surface-2)}
+.order-row small{display:block;color:var(--muted)}
+.order-row .pill{margin-top:6px}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.75rem;font-weight:700;background:var(--surface-2);color:var(--blue)}
+.pill.done{background:rgba(34,197,94,.16);color:#16a34a}
+.pill.cancel{background:rgba(229,72,77,.16);color:#e5484d}
+.dl{display:grid;gap:8px;font-size:.93rem;padding-top:6px}
+.dl div{display:flex;justify-content:space-between;gap:18px}
+.dl span:first-child{color:var(--muted);flex:none}
+.dl span:last-child{text-align:right;overflow-wrap:anywhere}
+.tl{list-style:none;margin:10px 0 0;padding:0}
+.tl li{position:relative;padding:0 0 18px 30px;color:var(--muted);font-size:.93rem}
+.tl li::before{content:"";position:absolute;left:0;top:2px;width:16px;height:16px;border-radius:50%;border:2px solid var(--line);background:var(--surface)}
+.tl li::after{content:"";position:absolute;left:7px;top:20px;bottom:0;width:2px;background:var(--line)}
+.tl li:last-child{padding-bottom:0}
+.tl li:last-child::after{display:none}
+.tl li.done{color:var(--ink)}
+.tl li.done::before{background:var(--blue);border-color:var(--blue)}
+.tl li.now{color:var(--ink);font-weight:600}
+.tl li.now::before{background:var(--blue);border-color:var(--blue);box-shadow:0 0 0 5px rgba(10,132,255,.2)}
+
+/* ---------- Dynamic Island toast ---------- */
+.island{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);left:50%;transform:translateX(-50%);z-index:80;width:96px;height:30px;border-radius:22px;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:width .55s var(--spring),height .55s var(--spring);pointer-events:none}
+.island span{opacity:0;font-size:.9rem;font-weight:600;padding:0 18px;white-space:nowrap;transition:opacity .25s}
+.island.show{width:min(330px,90vw);height:48px}
+.island.show span{opacity:1;transition-delay:.18s}
+
+/* ---------- Tab bar ala iPhone (mobile) ---------- */
+.tabbar{display:none}
+@media (max-width:860px){
+  .hero-grid{grid-template-columns:1fr}
+  .stage{height:380px}
+  .grid3,.steps{grid-template-columns:1fr}
+  .links{display:none}
+  .tabbar{position:fixed;left:14px;right:14px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);z-index:40;display:grid;grid-template-columns:repeat(5,1fr);background:var(--glass);backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px);border:1px solid var(--line);border-radius:26px;padding:8px;box-shadow:0 12px 34px -12px rgba(10,60,160,.45)}
+  .tabbar a,.tabbar button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;border-radius:18px;font-size:.72rem;font-weight:600;color:var(--muted);transition:background .25s,color .25s,transform .35s var(--spring)}
+  .tabbar a:active,.tabbar button:active{transform:scale(.9)}
+  .tabbar .on{background:var(--surface-2);color:var(--blue)}
+  .tabbar svg{width:22px;height:22px}
+  .auth .btn-ghost{display:none}
+  .cart-btn.nav-only{display:none}
+  .tabbar .badge{top:-5px;right:-10px}
+}
+@media (min-width:861px){
+  .veil{align-items:center}
+  .sheet{border-radius:32px;transform:translateY(40px) scale(.94);opacity:0;transition:transform .6s var(--spring),opacity .3s}
+  .veil.open .sheet{transform:none;opacity:1}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .rise{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="island" id="island" role="status" aria-live="polite"><span id="islandText"></span></div>
+
+<header class="nav">
+  <div class="wrap">
+    <div class="nav-in">
+      <a href="#beranda" class="brand" aria-label="Group 3, ke beranda">
+        <span class="brand-dot"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7" rx="1"/></svg></span>
+        Group 3
+      </a>
+      <nav class="links" aria-label="Navigasi utama">
+        <a href="#beranda" data-sec="beranda">Beranda</a>
+        <a href="#produk" data-sec="produk">Produk</a>
+        <a href="#cara" data-sec="cara">Cara pesan</a>
+        <a href="#kontak" data-sec="kontak">Kontak</a>
+      </nav>
+      <div class="auth">
+        <button class="cart-btn nav-only" id="cartBtn" aria-label="Buka keranjang"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="badge cart-count">0</span></button>
+        <div id="guestBox" class="auth">
+          <button class="btn btn-ghost" data-open="login">Masuk</button>
+          <button class="btn btn-fill" data-open="register">Daftar</button>
+        </div>
+        <div id="userBox" class="auth hide">
+          <button class="btn btn-ghost" id="ordersBtn">Pesanan saya</button>
+          <a class="btn btn-ghost hide" id="adminBtn" href="admin/">Admin</a>
+          <span class="chip"><span class="avatar" id="avatar">A</span><span id="userName">Nama</span></span>
+          <button class="btn btn-ghost" id="logoutBtn">Keluar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Beranda -->
+  <section class="hero" id="beranda">
+    <div class="wrap hero-grid">
+      <div>
+        <h1 class="rise" style="--d:.05s">Cetak apa saja, jadi milikmu.</h1>
+        <p class="lead rise" style="--d:.18s">Sablon kaos, sablon mug, dan cetak ID card dengan warna tajam dan hasil rapi. Pilih produk, kirim desain, kami cetak.</p>
+        <div class="hero-cta rise" style="--d:.3s">
+          <a href="#produk" class="btn btn-fill btn-lg">Lihat produk</a>
+          <button class="btn btn-ghost btn-lg" data-open="register">Buat akun gratis</button>
+        </div>
+      </div>
+
+      <div class="stage rise" style="--d:.2s" id="stage" aria-hidden="true">
+        <div class="glass-card"></div>
+        <div class="layer" data-depth="18">
+          <svg class="obj-shirt float" style="position:absolute;--f:0s" viewBox="0 0 160 160">
+            <defs><linearGradient id="gs" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4aa3ff"/><stop offset="1" stop-color="#0A4FD6"/></linearGradient></defs>
+            <path d="M30 20 L60 8 Q80 26 100 8 L130 20 L152 54 L124 66 L124 150 L36 150 L36 66 L8 54 Z" fill="url(#gs)"/>
+            <path d="M60 8 Q80 26 100 8" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="3"/>
+            <circle cx="80" cy="82" r="24" fill="#fff" opacity=".95"/>
+            <path d="M68 84 L78 72 L92 92 Z" fill="#0A84FF"/><circle cx="90" cy="72" r="5" fill="#64B5FF"/>
+          </svg>
+        </div>
+        <div class="layer" data-depth="34">
+          <svg class="obj-mug float" style="position:absolute;--f:1.2s" viewBox="0 0 130 120">
+            <path d="M100 34 h12 a14 14 0 0 1 0 44 h-12" fill="none" stroke="#eaf3ff" stroke-width="10" stroke-linecap="round"/>
+            <rect x="12" y="14" width="92" height="96" rx="14" fill="#fff"/>
+            <rect x="12" y="46" width="92" height="30" fill="#0A84FF"/>
+            <path d="M28 62 q10 -10 20 0 t20 0 t20 0" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+            <rect x="12" y="14" width="18" height="96" rx="9" fill="#fff" opacity=".55"/>
+          </svg>
+        </div>
+        <div class="layer" data-depth="26">
+          <svg class="obj-card float" style="position:absolute;--f:2.1s" viewBox="0 0 210 132">
+            <defs><linearGradient id="gc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0A2A6B"/><stop offset="1" stop-color="#0A84FF"/></linearGradient></defs>
+            <rect width="210" height="132" rx="16" fill="url(#gc)"/>
+            <rect x="0" y="0" width="210" height="30" rx="16" fill="rgba(255,255,255,.14)"/>
+            <circle cx="52" cy="76" r="27" fill="#cfe4ff"/><circle cx="52" cy="68" r="10" fill="#0A2A6B"/><path d="M32 96 q20 -22 40 0" fill="#0A2A6B"/>
+            <rect x="96" y="58" width="90" height="9" rx="4.5" fill="#fff"/>
+            <rect x="96" y="76" width="64" height="7" rx="3.5" fill="rgba(255,255,255,.6)"/>
+            <rect x="96" y="92" width="76" height="7" rx="3.5" fill="rgba(255,255,255,.4)"/>
+            <rect x="16" y="9" width="40" height="12" rx="6" fill="#fff" opacity=".85"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Produk -->
+  <section id="produk">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Tiga layanan cetak, satu tempat.</h2>
+        <p>Masuk ke akunmu untuk memesan. Harga di bawah adalah harga mulai dari dan bisa berubah sesuai jumlah dan desain.</p>
+      </div>
+      <div class="grid3" id="prodGrid"></div>
+    </div>
+  </section>
+
+  <!-- Cara pesan -->
+  <section id="cara">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Pesan dalam tiga langkah.</h2>
+        <p>Tidak perlu datang ke toko. Semuanya bisa diatur dari layar ponselmu.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><h3>Buat akun dan masuk</h3><p>Daftar dengan email, lalu masuk untuk membuka form pemesanan.</p></div>
+        <div class="step"><h3>Pilih produk, masukkan ke keranjang</h3><p>Tentukan jumlah, ukuran atau bahan, dan catatan desain. Satu keranjang bisa berisi beberapa produk.</p></div>
+        <div class="step"><h3>Kirim pesanan, pantau statusnya</h3><p>Kami hubungi kamu lewat WhatsApp untuk konfirmasi desain. Status pesanan bisa dilihat di Pesanan saya.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="kontak">
+  <div class="wrap foot">
+    <div><b>Group 3</b><br>Jasa sablon baju, sablon mug, dan cetak ID card.</div>
+    <div><b>Kontak</b><br>WhatsApp: 0895-3861-52526<br>Email: zadenlubis599@gmail.com</div>
+    <div><b>Jam layanan</b><br>Senin sampai Sabtu, 09.00 sampai 17.00</div>
+  </div>
+</footer>
+
+<!-- Tab bar mobile -->
+<nav class="tabbar" aria-label="Navigasi bawah">
+  <a href="#beranda" data-sec="beranda"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Beranda</a>
+  <a href="#produk" data-sec="produk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>Produk</a>
+  <a href="#cara" data-sec="cara"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg>Cara</a>
+  <button id="tabCart"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="badge cart-count">0</span></span>Keranjang</button>
+  <button id="tabAccount"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span id="tabAccountLabel">Masuk</span></button>
+</nav>
+
+<!-- Sheet: login / daftar -->
+<div class="veil" id="authVeil" aria-hidden="true">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="sheet-in">
+      <div class="grab"></div>
+      <button class="close" data-close aria-label="Tutup">✕</button>
+      <h3 id="authTitle">Masuk ke akunmu</h3>
+      <p class="sub" id="authSub">Masuk untuk memesan dan melihat riwayat pesanan.</p>
+      <div class="seg" id="seg" data-mode="login">
+        <span class="seg-thumb"></span>
+        <button type="button" data-mode="login" class="on">Masuk</button>
+        <button type="button" data-mode="register">Daftar</button>
+      </div>
+
+      <form id="loginForm" class="form-pane" novalidate>
+        <div class="field"><label for="lEmail">Email</label><input id="lEmail" type="email" autocomplete="email" placeholder="nama@email.com"></div>
+        <div class="field"><label for="lPass">Kata sandi</label><input id="lPass" type="password" autocomplete="current-password" placeholder="Kata sandi kamu"></div>
+        <p class="err" id="lErr"></p>
+        <button class="btn btn-fill btn-lg" type="submit">Masuk</button>
+      </form>
+
+      <form id="regForm" class="form-pane hide" novalidate>
+        <div class="field"><label for="rName">Nama lengkap</label><input id="rName" type="text" autocomplete="name" placeholder="Nama kamu"></div>
+        <div class="field"><label for="rEmail">Email</label><input id="rEmail" type="email" autocomplete="email" placeholder="nama@email.com"></div>
+        <div class="field"><label for="rPass">Kata sandi</label><input id="rPass" type="password" autocomplete="new-password" placeholder="Minimal 6 karakter"></div>
+        <div class="field"><label for="rPass2">Ulangi kata sandi</label><input id="rPass2" type="password" autocomplete="new-password" placeholder="Ketik ulang kata sandi"></div>
+        <p class="err" id="rErr"></p>
+        <button class="btn btn-fill btn-lg" type="submit">Buat akun</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Sheet: pesan -->
+<div class="veil" id="orderVeil" aria-hidden="true">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="orderTitle">
+    <div class="sheet-in">
+      <div class="grab"></div>
+      <button class="close" data-close aria-label="Tutup">✕</button>
+      <h3 id="orderTitle">Pesan produk</h3>
+      <p class="sub" id="orderSub"></p>
+      <form id="orderForm" novalidate>
+        <div class="field"><label for="oQty">Jumlah</label><input id="oQty" type="number" min="1" value="1"></div>
+        <div class="field"><label for="oOpt" id="oOptLabel">Pilihan</label><select id="oOpt"></select></div>
+        <div class="field"><label for="oNote">Catatan desain</label><textarea id="oNote" placeholder="Contoh: logo di dada kiri, warna biru navy"></textarea></div>
+        <div class="sum"><div class="tot"><span>Perkiraan subtotal</span><b id="oTotal">Rp 0</b></div></div>
+        <p class="err" id="oErr"></p>
+        <button class="btn btn-fill btn-lg" type="submit">Tambah ke keranjang</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Sheet: daftar pesanan -->
+<div class="veil" id="listVeil" aria-hidden="true">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="listTitle">
+    <div class="sheet-in">
+      <div class="grab"></div>
+      <button class="close" data-close aria-label="Tutup">✕</button>
+      <h3 id="listTitle">Pesanan saya</h3>
+      <p class="sub">Riwayat pesanan dari akun ini.</p>
+      <div id="orderList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Sheet: keranjang -->
+<div class="veil" id="cartVeil" aria-hidden="true">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+    <div class="sheet-in">
+      <div class="grab"></div>
+      <button class="close" data-close aria-label="Tutup">✕</button>
+      <h3 id="cartTitle">Keranjang</h3>
+      <p class="sub" id="cartSub">Cek pesananmu sebelum dikirim.</p>
+      <div id="cartList"></div>
+      <div id="cartFoot" class="hide">
+        <div class="sum" id="cartSum"></div>
+        <form id="checkoutForm" class="ckt" novalidate>
+          <div class="field"><label for="cName">Nama penerima</label><input id="cName" type="text" autocomplete="name" placeholder="Nama yang menerima pesanan"></div>
+          <div class="field"><label for="cPhone">Nomor WhatsApp</label><input id="cPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="081200001234"></div>
+          <div class="field"><label for="cMethod">Pengambilan</label><select id="cMethod"><option>Ambil di toko</option><option>Diantar (ongkir dikonfirmasi lewat WhatsApp)</option></select></div>
+          <div class="field"><label for="cNote">Catatan untuk seluruh pesanan</label><textarea id="cNote" placeholder="Contoh: dibutuhkan sebelum tanggal 20"></textarea></div>
+          <p class="err" id="cErr"></p>
+          <button class="btn btn-fill btn-lg" type="submit">Kirim pesanan</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sheet: detail pesanan -->
+<div class="veil" id="detailVeil" aria-hidden="true">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+    <div class="sheet-in">
+      <div class="grab"></div>
+      <button class="close" data-close aria-label="Tutup">✕</button>
+      <h3 id="detailTitle">Detail pesanan</h3>
+      <p class="sub" id="detailSub"></p>
+      <div id="detailBody"></div>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/app.js"></script>
+</body>
+</html>

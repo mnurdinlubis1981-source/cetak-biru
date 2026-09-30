@@ -1,0 +1,14 @@
+{
+  "name": "cetak-biru-netlify",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Website katalog Cetak Biru untuk Netlify + PostgreSQL",
+  "type": "module",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'Static site + Netlify Functions; no build step required.'"
+  },
+  "dependencies": {
+    "@netlify/database": "latest"
+  }
+}
